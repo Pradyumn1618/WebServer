@@ -1,14 +1,19 @@
 #include "socket.hpp"
+#include <signal.h>
+
+static Socket *instance=NULL;
 
 Socket::Socket(int domain,int type,int protocol,int port,u_long interface) {
     this->port = port;
+    bzero((char *) &this->server_addr,sizeof(this->server_addr));
     this->server_addr.sin_addr.s_addr = htonl(interface);
     this->server_addr.sin_family = domain;
     this->server_addr.sin_port = htons(this->port);
     std::cout<<"Port: "<<this->port<<" "<<this->server_addr.sin_port<<std::endl;
-    this->server = gethostbyname("localhost");
+    this->server = gethostbyname("0.0.0.0");
 
     this->sockfd = socket(domain,type,protocol);
+     
     if (this->sockfd < 0) {
         perror("Error opening socket");
         exit(1);
@@ -17,7 +22,9 @@ Socket::Socket(int domain,int type,int protocol,int port,u_long interface) {
         fprintf(stderr,"Error, no such host\n");
         exit(1);
     }
-    bzero((char *) &this->server_addr,sizeof(this->server_addr));
+    instance=this;
+    signal(SIGINT, (void (*)(int)) &Socket::signal_handler);
+    signal(SIGTSTP, (void (*)(int)) &Socket::signal_handler);
 }
 
 int Socket::get_connection() {
@@ -30,4 +37,10 @@ struct sockaddr_in Socket::get_address() {
 
 int Socket::get_sockfd() {
     return this->sockfd;
+}
+
+void Socket::signal_handler(int signum) {
+    std::cout<<"Interrupt signal ("<<signum<<") received.\n";
+    close(instance->sockfd);
+    exit(signum);
 }

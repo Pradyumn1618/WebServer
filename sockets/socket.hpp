@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <iostream>
+#include <atomic>
 
 class Socket {
     private:
@@ -27,5 +28,6 @@ class Socket {
         int get_connection();
         struct sockaddr_in get_address();
         int get_sockfd();
+        static void signal_handler(int signum);
 
 };
