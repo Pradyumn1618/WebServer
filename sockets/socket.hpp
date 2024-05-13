@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/time.h>
+#include <iostream>
 
 class Socket {
     private:
@@ -22,7 +23,7 @@ class Socket {
     public:
         int connection;
         Socket(int domain,int type,int protocol,int port,u_long interface);
-        virtual int connect_to_network(int,struct sockaddr_in);
+        virtual int connect_to_network(int,struct sockaddr_in)=0;
         int get_connection();
         struct sockaddr_in get_address();
         int get_sockfd();

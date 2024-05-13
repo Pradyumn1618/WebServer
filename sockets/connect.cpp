@@ -5,8 +5,8 @@ Connect::Connect(int domain,int type,int protocol,int port,u_long interface):Soc
 };
 
 int Connect::connect_to_network(int sockfd,struct sockaddr_in server_addr) {
-    int connection;
-    if (connection=connect(sockfd,(struct sockaddr *) &server_addr,sizeof(server_addr)) < 0) {
+    int connection=connect(sockfd,(struct sockaddr *) &server_addr,sizeof(server_addr));
+    if (connection < 0) {
         perror("Error connecting");
         exit(1);
     }

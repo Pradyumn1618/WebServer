@@ -10,11 +10,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/time.h>
-#include "socket.hpp"
-
-class Bind : public Socket{
-    public:
-        Bind(int domain,int type,int protocol,int port,u_long interface):Socket(domain,type,protocol,port,interface){};
-        int connect_to_network(int,struct sockaddr_in);
-        
-};
+#include <iostream>
+#include "server/server.hpp"
+#include "sockets/listen.hpp"
+#include "server/test.hpp"

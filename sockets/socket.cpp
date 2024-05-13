@@ -5,6 +5,7 @@ Socket::Socket(int domain,int type,int protocol,int port,u_long interface) {
     this->server_addr.sin_addr.s_addr = htonl(interface);
     this->server_addr.sin_family = domain;
     this->server_addr.sin_port = htons(this->port);
+    std::cout<<"Port: "<<this->port<<" "<<this->server_addr.sin_port<<std::endl;
     this->server = gethostbyname("localhost");
 
     this->sockfd = socket(domain,type,protocol);
