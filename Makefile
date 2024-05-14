@@ -4,6 +4,8 @@ CC := g++
 # Compiler flags
 CFLAGS := -Wall -Wextra -std=c++17
 
+LDFLAGS = -lfcgi
+
 # Source files
 
 # Header files
@@ -42,7 +44,7 @@ $(OBJDIR)/%.o: server/%.cpp $(HDRS)
 
 # Link object files into the target executable
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) 
 
 # Phony targets
 .PHONY: all clean
